@@ -154,4 +154,65 @@ public class ListNodeSolution {
         odd.next = evenHead;
         return head;
     }
+
+    /**
+     * 反转链表
+     *
+     * @param head
+     * @param left
+     * @param right
+     * @return
+     */
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode topNode = new ListNode(-1);
+        topNode.next = head;
+
+        // 1. pre定位到left前一个位置
+        ListNode pre = topNode;
+        for (int i = 0; i < left - 1; i++) {
+            pre = pre.next;
+        }
+
+        // 2.继续移动到right后面位置
+        ListNode rightNode = pre;
+        for (int i = left; i < right + 1; i++) {
+            rightNode = rightNode.next;
+        }
+
+        // 3. 截取链表
+        ListNode leftNode = pre.next;
+        ListNode curNode = rightNode.next;
+
+        // 4. 切断连接  这时候leftNode就是中间的一截了
+        pre.next = null;
+        rightNode.next = null;
+
+        // 5. 中间那段翻转
+        reverseLinkedList(leftNode);
+
+        // 6. 翻转后重新链接
+        pre.next = rightNode;
+        leftNode.next = curNode;
+        return topNode.next;
+
+    }
+
+    private void reverseLinkedList(ListNode head) {
+        ListNode pre = null;
+        ListNode cur = head;
+
+        while (cur != null) {
+            /**
+             * 1<->2<->3
+             * cur = 1, next = 2;
+             * 1.next = null;
+             * pre = 1;  这时候就实现了1和null翻转。
+             * cur = 2; 当前节点指向2
+             */
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+    }
 }
