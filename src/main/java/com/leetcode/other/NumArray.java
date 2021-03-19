@@ -1,4 +1,4 @@
-package com.leetcode;
+package com.leetcode.other;
 
 /**
  * 前缀和

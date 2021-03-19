@@ -6,7 +6,7 @@ public class StackSolution {
 
     public static void main(String[] args) {
         StackSolution solution = new StackSolution();
-        System.out.println(solution.calculateII("3+2*2"));
+        System.out.println(solution.isValidSerialization("1,#,#,#,#"));
     }
 
     /**
@@ -169,6 +169,37 @@ public class StackSolution {
             res += value;
         }
         return res;
+    }
+
+    /**
+     * 331. 验证二叉树的前序序列化
+     *
+     * @param preorder
+     * @return
+     */
+    public boolean isValidSerialization(String preorder) {
+        String[] split = preorder.split(",");
+        Stack<String> stack = new Stack<>();
+
+        for (int i = 0; i < split.length; i++) {
+            stack.push(split[i]);
+            while (stack.size() >= 3
+                    // stack.get(stack.size() - 1) 栈顶元素如果是“#”
+                    && "#".equals(stack.get(stack.size() - 1))
+                    // stack.get(stack.size() - 2) 栈顶第二个元素如果是“#”， 即满足 1，#，#格式
+                    && "#".equals(stack.get(stack.size() - 2))
+                    // stack.get(stack.size() - 3) 栈顶第三个元素不是“#”， 防止 #，#，#格式
+                    && !"#".equals(stack.get(stack.size() - 3))) {
+
+                // 1，#，#表明1是叶子节点，将其转成#， 能进行这样转换的组合说明是按照先序顺序遍历的
+                stack.pop();
+                stack.pop();
+                stack.pop();
+                stack.push("#");
+            }
+        }
+        // 转换到最后，只剩下一个#，说明此字符串是按照前序遍历进行序列化的
+        return stack.size() == 1 && "#".equals(stack.peek());
     }
 
 }
