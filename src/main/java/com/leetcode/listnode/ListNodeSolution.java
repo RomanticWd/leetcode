@@ -14,14 +14,16 @@ public class ListNodeSolution {
 
         ListNode one = new ListNode(1);
         ListNode two = new ListNode(2);
-        ListNode three = new ListNode(3);
-        ListNode four = new ListNode(4);
-        ListNode five = new ListNode(5);
+        ListNode three = new ListNode(2);
+        ListNode four = new ListNode(2);
+        ListNode five = new ListNode(3);
+        ListNode six = new ListNode(4);
         one.next = two;
         two.next = three;
         three.next = four;
         four.next = five;
-        ListNode newHead = solution.oddEvenList(one);
+        five.next = six;
+        ListNode newHead = solution.deleteDuplicatesII(one);
         while (newHead != null) {
             System.out.println(newHead.val);
             newHead = newHead.next;
@@ -214,5 +216,62 @@ public class ListNodeSolution {
             pre = cur;
             cur = next;
         }
+    }
+
+    /**
+     * 83. 删除排序链表中的重复元素
+     *
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+
+        ListNode cur = head;
+        while (cur.next != null) {
+            if (cur.val == cur.next.val) {
+                // 如果当前值和下一个值相同， 则当前节点不移动，next节点指向下下个节点
+                // 如1-1-2，变成1-2,当前节点还是1
+                cur.next = cur.next.next;
+            } else {
+                // 如果当前值和下一个值不同，当前节点向后移动
+                // 如1-2-3 当前节点是2 因为节点保持递增，只要相邻的两个节点值不同，就不会有重复的。
+                cur = cur.next;
+            }
+        }
+        return head;
+    }
+
+    /**
+     * 82. 删除排序链表中的重复元素 II
+     *
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicatesII(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+
+        ListNode topNode = new ListNode(-1);
+        topNode.next = head;
+
+        ListNode cur = topNode;
+        while (cur.next != null && cur.next.next != null) {
+            if (cur.next.val == cur.next.next.val) {
+                // 如果两个值相同 则开始删除操作
+                int temp = cur.next.val;
+                while (cur.next != null && cur.next.val == temp) {
+                    // 删除cur.next
+                    cur.next = cur.next.next;
+                }
+            } else {
+                // 遍历操作
+                cur = cur.next;
+            }
+        }
+        return topNode.next;
     }
 }
