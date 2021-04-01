@@ -6,7 +6,7 @@ public class StackSolution {
 
     public static void main(String[] args) {
         StackSolution solution = new StackSolution();
-        System.out.println(solution.isValidSerialization("1,#,#,#,#"));
+        System.out.println(solution.clumsy(4));
     }
 
     /**
@@ -200,6 +200,46 @@ public class StackSolution {
         }
         // 转换到最后，只剩下一个#，说明此字符串是按照前序遍历进行序列化的
         return stack.size() == 1 && "#".equals(stack.peek());
+    }
+
+    /**
+     * 1006. 笨阶乘
+     *
+     * @param N
+     * @return
+     */
+    public int clumsy(int N) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(N);
+        N--;
+
+        int index = 0;
+        while (N > 0) {
+            // 能整除4，乘法
+            if (index % 4 == 0) {
+                // 栈顶元素取出进行乘法运算
+                stack.push(stack.pop() * N);
+                // 余1，除法
+            } else if (index % 4 == 1) {
+                // 栈顶元素取出进行除法运算
+                stack.push(stack.pop() / N);
+                // 余2，加法
+            } else if (index % 4 == 2) {
+                // 没有优先级的运算符直接推入栈中
+                stack.push(N);
+            } else {
+                // 减法，推入负数
+                stack.push(-N);
+            }
+            N--;
+            index++;
+        }
+        int result = 0;
+        // 所有栈中元素之和就是运算结果
+        for (Integer integer : stack) {
+            result += integer;
+        }
+        return result;
     }
 
 }
