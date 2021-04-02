@@ -6,8 +6,8 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {10, 9, 2, 5, 3, 7};
-        System.out.println(solution.lengthOfLIS(nums));
+        int[] nums = {0, 1, 0, 2, 1, 0, 1, 3, 3, 2, 1, 2, 1};
+        System.out.println(solution.trap(nums));
 
     }
 
@@ -757,6 +757,39 @@ public class Solution {
             res += right - left;
         }
         return res;
+    }
+
+    /**
+     * 面试题 17.21. 直方图的水量
+     *
+     * @param height
+     * @return
+     */
+    public int trap(int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+
+        int high = 1;
+        // 计算柱子+水一共的体积
+        int volume = 0;
+        while (left <= right) {
+            // 里面的left <= right条件是为了限制，left==right的时候进来，内部循环会一直持续下去
+            while (left <= right && height[left] < high) {
+                left++;
+            }
+            while (left <= right && height[right] < high) {
+                right--;
+            }
+            volume += right - left + 1;
+            high++;
+        }
+        int sum = 0;
+        // 计算柱子体积
+        for (int i : height) {
+            sum += i;
+        }
+        // 柱子+水-柱子 = 水容量
+        return volume - sum;
     }
 
 }
