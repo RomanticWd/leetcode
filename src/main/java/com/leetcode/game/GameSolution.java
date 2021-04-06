@@ -1,9 +1,6 @@
 package com.leetcode.game;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * 游戏相关
@@ -13,9 +10,9 @@ public class GameSolution {
     public static void main(String[] args) {
         GameSolution solution = new GameSolution();
 
-        int[][] arr = new int[][]{{5, 4}, {6, 4}, {6, 7}, {2, 3}};
+        int[] arr = new int[]{1, 1, 2};
 
-        System.out.println(solution.maxEnvelopes(arr));
+        System.out.println(solution.numRabbits(arr));
 
     }
 
@@ -354,5 +351,33 @@ public class GameSolution {
             max = Math.max(max, dp[i]);
         }
         return max;
+    }
+
+    /**
+     * 781. 森林中的兔子
+     *
+     * @param answers
+     * @return
+     */
+    public int numRabbits(int[] answers) {
+        // 分组将回答相同的兔子分到一个租中，key为回答，value为这个回答的兔子数量
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int answer : answers) {
+            map.put(answer, map.getOrDefault(answer, 0) + 1);
+        }
+
+        int count = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            // 回答的数，比如1只兔子回答5，，key=5，那么代表有5只兔子和它颜色相同，那么count最小为6
+            int key = entry.getKey();
+            // 回答相同的个数，两只兔子回答5，value=5
+            int value = entry.getValue();
+            // 13只兔子回答5，那么最少有(13/（5+1）)+1 = 3种颜色
+            // 12只兔子回答5, 12/(5+1)+1=3种颜色 but two color is enough
+            // so (value / (key + 1) + 1) is error
+            int color = (key + value) / (key + 1);
+            count += color * (key + 1);
+        }
+        return count;
     }
 }
