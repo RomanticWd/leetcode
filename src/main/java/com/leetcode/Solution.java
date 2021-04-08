@@ -6,8 +6,8 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {0, 1, 0, 2, 1, 0, 1, 3, 3, 2, 1, 2, 1};
-        System.out.println(solution.trap(nums));
+        int[] nums = {4, 5, 6, 7, 0, 1, 2};
+        System.out.println(solution.findMin(nums));
 
     }
 
@@ -790,6 +790,58 @@ public class Solution {
         }
         // 柱子+水-柱子 = 水容量
         return volume - sum;
+    }
+
+    /**
+     * 删除有序数组中的重复项 II
+     *
+     * @param nums
+     * @return
+     */
+    public int removeDuplicates(int[] nums) {
+        int length = nums.length;
+        if (length <= 2) {
+            return length;
+        }
+        /**
+         * 1,1,1,2,2,2
+         * 初始化 slow=fast=2的时候，
+         * fast下标加1 fast+1=》3
+         * 这时候2！=1，将slow下标的1替换成2，数组变成了1，1，2，2，2，2
+         * 这时候slow=3，fast=3，fast下标加1 fast+1=》4
+         * 这时候2！=1，将slow下标的1替换成2，数组变成了1，1，2，2，2，2
+         */
+        int slow = 2, fast = 2;
+        while (fast < length) {
+            // 上上个元素与当前元素是否相同，相同说明出现连续三个相同的数字,相同的话需要把第三个数字给替换,所以slow不动
+            // 不同说明新元素出现的次数不到2次，用新元素替换之前需要需要替换的老元素
+            if (nums[slow - 2] != nums[fast]) {
+                nums[slow] = nums[fast];
+                slow++;
+            }
+            fast++;
+        }
+        return slow;
+    }
+
+    /**
+     * 153. 寻找旋转排序数组中的最小值
+     *
+     * @param nums
+     * @return
+     */
+    public int findMin(int[] nums) {
+        int length = nums.length;
+        if (length == 1) {
+            return nums[0];
+        }
+        int min = nums[0];
+        for (int num : nums) {
+            if (num < min) {
+                min = num;
+            }
+        }
+        return min;
     }
 
 }
