@@ -1,9 +1,6 @@
 package com.leetcode.num;
 
-import java.util.HashSet;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 数字相关题目
@@ -12,7 +9,8 @@ public class NumSolution {
 
     public static void main(String[] args) {
         NumSolution solution = new NumSolution();
-        System.out.println(solution.nthUglyNumber(10));
+        int[] nums = new int[]{3, 30, 34, 5, 9};
+        System.out.println(solution.largestNumber(nums));
     }
 
     /**
@@ -68,5 +66,28 @@ public class NumSolution {
             }
         }
         return res;
+    }
+
+    /**
+     * 179. 最大数
+     *
+     * @param nums
+     * @return
+     */
+    public String largestNumber(int[] nums) {
+        StringBuilder sb = new StringBuilder();
+        Arrays.stream(nums).boxed().sorted((o1, o2) -> {
+            // 首先拼接成的两个字符串一定是等长的。等长的字符串在比较的时候，是按照字符串的各个字符从前向后逐个比较的，
+            // 所以相当于先比较了百分位，然后比较十分位，最后比较个位。所以在字符串等长的情况下，字符串大，那么对应的整型也更大。
+            String x = o1 + "" + o2;
+            String y = o2 + "" + o1;
+            // java中没有直接比较两个字符串大小的方法，还是得转为数字
+            // 1:表示大于  -1:表示小于
+            // 返回-1,比较器会从大到小排列，返回1,比较器会从小到大排列， 这里需要从大到小排列
+            return Long.parseLong(x) >= Long.parseLong(y) ? -1 : 1;
+        }).forEach(sb::append);
+        // 排除'00'情况
+        if (sb.charAt(0) == '0') return "0";
+        return sb.toString();
     }
 }
