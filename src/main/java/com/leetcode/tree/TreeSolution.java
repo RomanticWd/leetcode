@@ -346,4 +346,19 @@ public class TreeSolution {
         dfs(root.left, res);
         dfs(root.right, res);
     }
+
+    /**
+     * 783. 二叉搜索树节点最小距离
+     *
+     * @param root
+     * @return
+     */
+    public int minDiffInBST(TreeNode root) {
+        // 二叉搜索树有个性质为二叉搜索树中序遍历(左中右)得到的值序列是递增有序的
+        // 将二叉搜索树进行中序遍历，得到数组，求出相邻元素间的最小差值即为结果
+        min = Integer.MAX_VALUE;
+        pre = -1;
+        dfs(root);
+        return min;
+    }
 }
