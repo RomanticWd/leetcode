@@ -90,4 +90,34 @@ public class NumSolution {
         if (sb.charAt(0) == '0') return "0";
         return sb.toString();
     }
+
+    /**
+     * 633. 平方数之和
+     *
+     * @date: 2021/4/28
+     */
+    public boolean judgeSquareSum(int c) {
+
+        /**
+         * 为什么 low^2+high^2<c 时，要让low++而不是high++呢？或者说为什么让low++可以保证不错过正确答案呢？
+         * 同理，为什么low^2+high^2>c 时，要让high--而不是low--呢？或者说为什么让high--可以保证不错过正确答案呢？
+         *
+         * 参考：https://leetcode-cn.com/problems/sum-of-square-numbers/solution/shuang-zhi-zhen-de-ben-zhi-er-wei-ju-zhe-ebn3/
+         */
+        long left = 0;
+        long right = (long) Math.sqrt(c);
+
+        while (left <= right) {
+            long sum = left * left + right * right;
+            if (sum == c) {
+                return true;
+            } else if (sum < c) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return false;
+
+    }
 }
