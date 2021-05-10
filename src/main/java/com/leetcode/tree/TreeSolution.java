@@ -361,4 +361,41 @@ public class TreeSolution {
         dfs(root);
         return min;
     }
+
+    /**
+     * 872. 叶子相似的树
+     *
+     * @param root1
+     * @param root2
+     * @return
+     */
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+
+        List<Integer> seq1 = new ArrayList<>();
+        if (root1 != null) {
+            dfsWithReturn(root1, seq1);
+        }
+
+        List<Integer> seq2 = new ArrayList<>();
+        if (root2 != null) {
+            dfsWithReturn(root2, seq2);
+        }
+
+        return seq1.equals(seq2);
+
+    }
+
+    private List<Integer> dfsWithReturn(TreeNode root, List<Integer> seq) {
+        // 叶子节点
+        if (root.left == null && root.right == null) {
+            seq.add(root.val);
+        }
+        if (root.left != null) {
+            dfsWithReturn(root.left, seq);
+        }
+        if (root.right != null) {
+            dfsWithReturn(root.right, seq);
+        }
+        return seq;
+    }
 }
