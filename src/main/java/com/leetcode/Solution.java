@@ -7,7 +7,7 @@ public class Solution {
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums = {4, 5, 6, 7, 0, 1, 2};
-        System.out.println(solution.findMin(nums));
+        System.out.println(solution.findMaximumXOR(nums));
 
     }
 
@@ -842,6 +842,42 @@ public class Solution {
             }
         }
         return min;
+    }
+
+    /**
+     * 421. 数组中两个数的最大异或值
+     *
+     * @param nums
+     * @return
+     */
+    public int findMaximumXOR(int[] nums) {
+        int res = 0;
+        int mask = 0;
+        for (int i = 31; i >= 0; i--) {
+            // 注意点1：注意保留前缀的方法，mask 是这样得来的
+            // 用异或也是可以的 mask = mask ^ (1 << i);
+            mask = mask ^ (1 << i);
+
+            System.out.println(Integer.toBinaryString(mask));
+            Set<Integer> set = new HashSet<>();
+            // set用于存放每一位上的数字，0或者1，比如4, 5, 6, 7, 0, 1, 2几个数字第31位都是0，那么set中就只有一个0，
+            for (int num : nums) {
+                // 注意点2：这里使用 & ，保留前缀的意思（从高位到低位）
+                set.add(num & mask);
+            }
+
+            // 这里先假定第 n 位为 1 ，前 n-1 位 res 为之前迭代求得
+            int temp = res | (1 << i);
+            System.out.println(Integer.toBinaryString(mask));
+            for (Integer prefix : set) {
+                // set中存放的数组当前下标第n位的的数字，如果为0，与temp异或后为1，且1在set中存在的话，说明这个二进制的最大值应该为1
+                if (set.contains(prefix ^ temp)) {
+                    res = temp;
+                    break;
+                }
+            }
+        }
+        return res;
     }
 
 }
