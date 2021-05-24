@@ -380,4 +380,29 @@ public class GameSolution {
         }
         return count;
     }
+
+    /**
+     * 810. 黑板异或游戏
+     */
+    public boolean xorGame(int[] nums) {
+        /*异或规则：1. 任何数字和0异或还是数字本身
+                  2. 相同数字异或结果为0
+          如果是偶数，玩家alice先手，剩下数字是奇数。
+            举例: 1,2,3,3 --》1，2，3 --》 1，2 --》1无论如何都可以获胜
+          如果是奇数，玩家alice先手，剩下数字是偶数。玩家bob要么剩下偶数直接消除为0，bob获胜，要么剩下一个数字，无法被异或为0，还是bob获胜。
+            举例: 1,2,3 --》1，2 --》1 无论如何都是失败
+        */
+        // alice获胜的两个条件满足任意一个：
+        // 1. nums所有数字都能异或成0（根据游戏规则，轮到某个玩家时，如果当前黑板上所有数字异或结果等于 0，则当前玩家获胜）
+        // 2. nums是偶数个
+
+        if (nums.length % 2 == 0) {
+            return true;
+        }
+        int result = 0;
+        for (int i : nums) {
+            result ^= i;
+        }
+        return result == 0;
+    }
 }
