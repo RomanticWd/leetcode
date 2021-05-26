@@ -6,7 +6,7 @@ public class StackSolution {
 
     public static void main(String[] args) {
         StackSolution solution = new StackSolution();
-        System.out.println(solution.clumsy(4));
+        System.out.println(solution.reverseParentheses("(u(love)i)"));
     }
 
     /**
@@ -240,6 +240,43 @@ public class StackSolution {
             result += integer;
         }
         return result;
+    }
+
+
+    /**
+     * 1190. 反转每对括号间的子串
+     *
+     * @date: 2021/5/26
+     */
+    public String reverseParentheses(String s) {
+        char[] chars = s.toCharArray();
+        Stack<String> stack = new Stack<>();
+        StringBuffer sb = new StringBuffer();
+
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '(') {
+                // 遇到（，将（前的字符串塞入栈中
+                stack.push(sb.toString());
+                // 字符串从0开始记录
+                sb.setLength(0);
+            } else if (chars[i] == ')') {
+                // 翻转字符串
+                sb.reverse();
+                //翻转后将栈中的字符串取出放在最前面
+
+                // 举例：(u(love)i)
+
+                // 1：第二个（ sb=u  栈中：空，
+                // 2：第一个） sb=love，栈中：u
+                // 3：sb=uevol 栈中：空
+                // 4：字符i，sb=uevoli
+                // 5：第二个） sb=iloveu
+                sb.insert(0, stack.pop());
+            } else {
+                sb.append(chars[i]);
+            }
+        }
+        return sb.toString();
     }
 
 }
