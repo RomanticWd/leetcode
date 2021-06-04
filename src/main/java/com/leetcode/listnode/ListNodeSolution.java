@@ -274,4 +274,26 @@ public class ListNodeSolution {
         }
         return topNode.next;
     }
+
+    /**
+     * 160. 相交链表
+     *
+     * @author yue.liu
+     * @since 2021/6/4 10:34
+     **/
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) return null;
+
+        ListNode pA = headA;
+        ListNode pB = headB;
+
+        while (pA != pB) {
+            // 如果pA走到头即为null，开始走pB的路线。
+            pA = (pA == null ? headB : pA.next);
+            // 如果pB走到头即为null，开始走pA的路线。
+            pB = (pB == null ? headA : pB.next);
+            // 这样最终两个人走过的路线就都是A+B，如果两个人有相遇，则pA=pB，并退出while循环，否则一直到pA=pB=null
+        }
+        return pA;
+    }
 }
