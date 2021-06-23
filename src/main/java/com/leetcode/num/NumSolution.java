@@ -120,4 +120,21 @@ public class NumSolution {
         return false;
 
     }
+
+    /**
+     * 剑指 Offer 15. 二进制中1的个数
+     **/
+    public int hammingWeight(int n) {
+        int result = 0;
+
+        while (n != 0) {
+            // 与运算，因为1的二进制是0000 0001，n与1进行与运算就是判断最右侧是0还是1
+            result += n & 1;
+            // n右移一位，即每一位都与1进行与运算。最终和就是1的个数
+            // 其中  >> : 右移运算符，num >> 1,相当于num除以2
+            //     >>> : 无符号右移，忽略符号位，空位都以0补齐，这样最后n为0的时候就说明n已经右移完毕
+            n >>>= 1;
+        }
+        return result;
+    }
 }
