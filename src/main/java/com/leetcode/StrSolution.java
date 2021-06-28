@@ -1,7 +1,6 @@
 package com.leetcode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 字符串相关
@@ -10,7 +9,10 @@ public class StrSolution {
 
     public static void main(String[] args) {
         StrSolution solution = new StrSolution();
-        System.out.println(solution.isIsomorphic("paper", "title"));
+        for (String s : solution.permutation("abc")) {
+            System.out.println(s);
+        }
+
     }
 
     /**
@@ -97,5 +99,40 @@ public class StrSolution {
         }
         // 最后一个字符的最小分割次数
         return dp[length - 1];
+    }
+
+    /**
+     * 剑指 Offer 38. 字符串的排列
+     **/
+    List<String> result = new ArrayList<>();
+    char[] chars;
+
+    public String[] permutation(String s) {
+        chars = s.toCharArray();
+        dfs(0);
+        return result.toArray(new String[result.size()]);
+    }
+
+    void dfs(int x) {
+        // 如果x是最后一位，此次递归结束
+        if (x == chars.length - 1) {
+            result.add(String.valueOf(chars));      // 添加排列方案
+            return;
+        }
+        // 用于存放此次递归使用过的字符串，使用过就不再使用
+        HashSet<Character> set = new HashSet<>();
+        for (int i = x; i < chars.length; i++) {
+            if (set.contains(chars[i])) continue; // 重复，因此剪枝
+            set.add(chars[i]);
+            swap(i, x);                      // 交换，将 c[i] 固定在第 x 位
+            dfs(x + 1);                      // 开启固定第 x + 1 位字符
+            swap(i, x);                      // 恢复交换
+        }
+    }
+
+    void swap(int a, int b) {
+        char tmp = chars[a];
+        chars[a] = chars[b];
+        chars[b] = tmp;
     }
 }
