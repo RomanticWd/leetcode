@@ -1,5 +1,7 @@
 package com.leetcode.other;
 
+import java.util.Arrays;
+
 /**
  * 杂
  *
@@ -10,7 +12,8 @@ public class OtherSolution {
 
     public static void main(String[] args) {
         OtherSolution solution = new OtherSolution();
-        System.out.println(solution.convertToTitle(800));
+        int[] cost = new int[]{1, 6, 3, 1, 2, 5};
+        System.out.println(solution.maxIceCream(cost, 20));
     }
 
     /**
@@ -58,5 +61,24 @@ public class OtherSolution {
         // 由于是取余，是先从低位开始计算的，append后是放在前面，需要反序输出
         sb.reverse();
         return sb.toString();
+    }
+
+    /**
+     * 1833. 雪糕的最大数量
+     *
+     * @return int
+     * @author yue.liu
+     * @since 2021/7/2 12:28
+     **/
+    public int maxIceCream(int[] costs, int coins) {
+        Arrays.sort(costs);
+
+        int i = 0;
+        int length = costs.length;
+        while (i < length && costs[i] <= coins) {
+            coins = coins - costs[i];
+            i++;
+        }
+        return i;
     }
 }
