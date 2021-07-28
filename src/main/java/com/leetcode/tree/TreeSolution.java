@@ -1,9 +1,7 @@
 package com.leetcode.tree;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 二叉树相关
@@ -103,6 +101,15 @@ public class TreeSolution {
         int val;
         TreeNode left;
         TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
 
         TreeNode(int x) {
             val = x;
@@ -385,6 +392,7 @@ public class TreeSolution {
 
     }
 
+
     private List<Integer> dfsWithReturn(TreeNode root, List<Integer> seq) {
         // 叶子节点
         if (root.left == null && root.right == null) {
@@ -397,5 +405,24 @@ public class TreeSolution {
             dfsWithReturn(root.right, seq);
         }
         return seq;
+    }
+
+    /**
+     * @description 671. 二叉树中第二小的节点
+     * @date: 2021/7/27
+     */
+    Set<Integer> set = new HashSet<>();
+
+    public int findSecondMinimumValue(TreeNode root) {
+        dfs2(root);
+        if (set.size() < 2) return -1;
+        return set.stream().sorted().collect(Collectors.toList()).get(1);
+    }
+
+    void dfs2(TreeNode root) {
+        if (root == null) return;
+        set.add(root.val);
+        dfs(root.left);
+        dfs(root.right);
     }
 }
