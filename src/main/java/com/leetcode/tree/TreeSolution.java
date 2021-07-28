@@ -425,4 +425,60 @@ public class TreeSolution {
         dfs(root.left);
         dfs(root.right);
     }
+
+    /**
+     * @description 863. 二叉树中所有距离为 K 的结点
+     * @date: 2021/7/28
+     */
+    // 存放节点key 和 父节点
+    Map<Integer, TreeNode> parents = new HashMap<>();
+    List<Integer> result = new ArrayList<>();
+
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        // 从 root 出发 DFS，记录每个结点的父结点
+        findParents(root);
+        // 从 target 出发 DFS，寻找所有深度为 k 的结点
+        findAns(target, null, 0, k);
+        return result;
+    }
+
+    /**
+     * 遍历节点，将节点key和父节点放入map
+     */
+    private void findParents(TreeNode root) {
+        if (root.left != null) {
+            parents.put(root.left.val, root);
+            findParents(root.left);
+        }
+        if (root.right != null) {
+            parents.put(root.right.val, root);
+            findParents(root.right);
+        }
+    }
+
+    /**
+     * 从目标节点target出发，来源节点 from，depth为遍历深度，k为目标深度
+     */
+    private void findAns(TreeNode target, TreeNode from, int depth, int k) {
+        if (target == null) {
+            return;
+        }
+        if (depth == k) {
+            result.add(target.val);
+            return;
+        }
+        // 如果目标节点和来源节点相同，则说明此值已经判断过，无需遍历
+        // 左节点
+        if (target.left != from) {
+            findAns(target.left, target, depth + 1, k);
+        }
+        // 右节点
+        if (target.right != from) {
+            findAns(target.right, target, depth + 1, k);
+        }
+        // 父节点
+        if (parents.get(target.val) != from) {
+            findAns(parents.get(target.val), target, depth + 1, k);
+        }
+    }
 }
