@@ -9,9 +9,7 @@ public class StrSolution {
 
     public static void main(String[] args) {
         StrSolution solution = new StrSolution();
-        for (String s : solution.permutation("abc")) {
-            System.out.println(s);
-        }
+        System.out.println(solution.beautySum("aabcb"));
 
     }
 
@@ -134,5 +132,39 @@ public class StrSolution {
         char tmp = chars[a];
         chars[a] = chars[b];
         chars[b] = tmp;
+    }
+
+    /**
+     * 1781. 所有子字符串美丽值之和
+     * 一个字符串的 美丽值 定义为：出现频率最高字符与出现频率最低字符的出现次数之差。
+     *
+     * @param s
+     * @return
+     */
+    public int beautySum(String s) {
+        // 双重遍历，外循环从头开始向后遍历，内循环从第一层循环开始位置向后遍历，最终会遍历出所有的子字符串。
+        // 同时通过-‘a’的方式计算出当前位置字符串的位置的数值，出现一次数字加1，最终得出出现的次数
+
+        int res = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int[] cnt = new int[26];
+            int maxFreq = 0;
+
+            // 遍历子字符串
+            for (int j = i; j < s.length(); j++) {
+                cnt[s.charAt(j) - 'a']++;
+                // 计算子字符串的最高出现频率
+                maxFreq = Math.max(maxFreq, cnt[s.charAt(j) - 'a']);
+                int minFreq = s.length();
+                for (int k = 0; k < 26; k++) {
+                    // 出现过
+                    if (cnt[k] > 0) {
+                        minFreq = Math.min(minFreq, cnt[k]);
+                    }
+                }
+                res += maxFreq - minFreq;
+            }
+        }
+        return res;
     }
 }
