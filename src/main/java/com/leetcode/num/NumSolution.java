@@ -137,4 +137,26 @@ public class NumSolution {
         }
         return result;
     }
+
+    /**
+     * 1827. 最少操作使数组递增
+     * 严格递增：数组的每一项都比前一项大
+     *
+     * @param nums
+     * @return
+     */
+    public int minOperations(int[] nums) {
+        int res = 0;
+        int pre = 0;
+        for (int num : nums) {
+            // 如果是比之前的数字大：当前数字不变
+            // 如果是比之前的小或者等于：当前数字为pre+1
+            if (num <= pre) {
+                res += pre + 1 - num;
+                num = pre + 1;
+            }
+            pre = num;
+        }
+        return res;
+    }
 }
