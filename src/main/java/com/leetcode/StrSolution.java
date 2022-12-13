@@ -9,7 +9,7 @@ public class StrSolution {
 
     public static void main(String[] args) {
         StrSolution solution = new StrSolution();
-        System.out.println(solution.beautySum("aabcb"));
+        System.out.println(solution.checkIfPangram("leetcode"));
 
     }
 
@@ -166,5 +166,20 @@ public class StrSolution {
             }
         }
         return res;
+    }
+
+    /**
+     * 1832. 判断句子是否为全字母句
+     * 全字母句 指包含英语字母表中每个字母至少一次的句子。
+     *
+     * @param sentence
+     * @return
+     */
+    public boolean checkIfPangram(String sentence) {
+        Set<Character> set = new HashSet<>();
+        for (int i = 0; i < sentence.length(); i++) {
+            set.add(sentence.charAt(i));
+        }
+        return set.size() == 26;
     }
 }
