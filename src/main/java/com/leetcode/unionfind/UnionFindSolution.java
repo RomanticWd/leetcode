@@ -1,10 +1,12 @@
-package com.leetcode;
+package com.leetcode.unionfind;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 并查集
+ * 合并（Union）：合并两个元素所属集合（合并对应的树）
+ * 查询（Find）：查询某个元素所属集合（查询对应的树的根节点），这可以用于判断两个元素是否属于同一集合
  */
 public class UnionFindSolution {
 
@@ -19,6 +21,7 @@ public class UnionFindSolution {
 
     /**
      * 547. 省份数量
+     * https://leetcode.cn/problems/number-of-provinces/solutions/550107/python-duo-tu-xiang-jie-bing-cha-ji-by-m-vjdr/
      *
      * @param isConnected
      * @return
@@ -42,7 +45,7 @@ public class UnionFindSolution {
 
 
     static class UnionFind {
-        // 记录父节点 根节点的父节点应该为空
+        // 记录父节点 根节点的父节点应该为空，  key是当前节点，value是父节点
         private Map<Integer, Integer> father;
         // 记录集合的数量
         private int numOfSets = 0;
@@ -91,12 +94,15 @@ public class UnionFindSolution {
         public int find(int x) {
             int root = x;
 
+            // 如果节点的父节点不为空，那就不断迭代
             while (father.get(root) != null) {
                 root = father.get(root);
             }
 
+            // 路径压缩。也就是把树的深度固定为二
             while (x != root) {
                 int original_father = father.get(x);
+                // key是当前节点，value是父节点
                 father.put(x, root);
                 x = original_father;
             }
