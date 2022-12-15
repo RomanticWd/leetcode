@@ -9,8 +9,8 @@ public class NumSolution {
 
     public static void main(String[] args) {
         NumSolution solution = new NumSolution();
-        int[] nums = new int[]{3, 30, 34, 5, 9};
-        System.out.println(solution.largestNumber(nums));
+        System.out.println(solution.getLucky("iaozzbyqzwbpurzze", 2));
+        System.out.println(solution.numParseTotal(100));
     }
 
     /**
@@ -158,5 +158,35 @@ public class NumSolution {
             pre = num;
         }
         return res;
+    }
+
+    /**
+     * 1945. 字符串转化后的各位数字之和
+     *
+     * @param s
+     * @param k
+     * @return
+     */
+    public int getLucky(String s, int k) {
+        int res = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int num = s.charAt(i) - 'a' + 1;
+            int ten = num / 10;
+            res += (ten + (num % 10));
+        }
+        while (--k > 0) {
+            res = numParseTotal(res);
+        }
+        return res;
+    }
+
+    public int numParseTotal(int num) {
+        int total = 0;
+        while (num / 10 > 0) {
+            total += (num % 10);
+            num = num / 10;
+        }
+        total += num;
+        return total;
     }
 }
