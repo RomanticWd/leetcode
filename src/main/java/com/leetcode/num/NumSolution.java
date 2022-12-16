@@ -9,8 +9,7 @@ public class NumSolution {
 
     public static void main(String[] args) {
         NumSolution solution = new NumSolution();
-        System.out.println(solution.getLucky("iaozzbyqzwbpurzze", 2));
-        System.out.println(solution.numParseTotal(100));
+        System.out.println(solution.minElements(new int[]{-1, 0, 1, 1, 1}, 1, 771843707));
     }
 
     /**
@@ -188,5 +187,31 @@ public class NumSolution {
         }
         total += num;
         return total;
+    }
+
+    /**
+     * 1785. 构成特定和需要添加的最少元素
+     * 1 <= nums.length <= 105
+     * 1 <= limit <= 106
+     * -limit <= nums[i] <= limit
+     * -109 <= goal <= 109
+     *
+     * @param nums
+     * @param limit
+     * @param goal
+     * @return
+     */
+    public int minElements(int[] nums, int limit, int goal) {
+        // int会🈶有精度丢失的情况，所以用long型
+        long total = 0;
+        for (int num : nums) {
+            total += num;
+        }
+        long diff = Math.abs(goal - total);
+        if (diff % limit == 0) {
+            return (int) (diff / limit);
+        } else {
+            return (int) ((diff / limit) + 1);
+        }
     }
 }
