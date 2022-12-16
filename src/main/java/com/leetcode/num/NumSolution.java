@@ -191,10 +191,10 @@ public class NumSolution {
 
     /**
      * 1785. 构成特定和需要添加的最少元素
-     * 1 <= nums.length <= 105
-     * 1 <= limit <= 106
+     * 1 <= nums.length <= 10^5
+     * 1 <= limit <= 10^6
      * -limit <= nums[i] <= limit
-     * -109 <= goal <= 109
+     * -10^9 <= goal <= 10^9
      *
      * @param nums
      * @param limit
