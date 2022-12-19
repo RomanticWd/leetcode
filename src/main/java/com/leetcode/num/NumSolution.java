@@ -214,4 +214,40 @@ public class NumSolution {
             return (int) ((diff / limit) + 1);
         }
     }
+
+    /**
+     * 1764. 通过连接另一个数组的子数组得到一个数组
+     *
+     * @param groups
+     * @param nums
+     * @return
+     */
+    public boolean canChoose(int[][] groups, int[] nums) {
+        int i = 0;
+        for (int k = 0; k < nums.length && i < groups.length; ) {
+            if (checkNum(groups[i], nums, k)) {
+                k += groups[i].length;
+                i++;
+            } else {
+                k++;
+            }
+        }
+        // i == groups数组的长度，说明存在
+        return i == groups.length;
+    }
+
+    public boolean checkNum(int[] group, int[] nums, int k) {
+        // groups子数组的长度 + nums数组的下标位超过 nums数组，说明nums中元素数量不够。
+        if (group.length + k > nums.length) {
+            return false;
+        }
+
+        for (int index = 0; index < group.length; index++) {
+            if (group[index] != nums[k + index]) {
+                return false;
+            }
+        }
+        return true;
+
+    }
 }
