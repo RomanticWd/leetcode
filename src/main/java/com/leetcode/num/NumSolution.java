@@ -250,4 +250,42 @@ public class NumSolution {
         return true;
 
     }
+
+    /**
+     * 1760. 袋子里最少数目的球
+     * 1 <= nums.length <= 105
+     * 1 <= maxOperations, nums[i] <= 109
+     * @param nums
+     * @param maxOperations
+     * @return
+     */
+    public int minimumSize(int[] nums, int maxOperations) {
+        int right = Arrays.stream(nums).max().getAsInt();
+        int left = 1;
+        int res = 0;
+        // 开始二分查找
+        while (left <= right) {
+            // 求中间值
+            int y = (left + right) / 2;
+            // 这一次二分查找结果的总的操作次数, 由于1 <= nums.length <= 105，所以用long型
+            long ops = 0;
+            for (int num : nums) {
+                // 当 nums[i]≤y时，我们无需进行操作；
+                //当 y < nums[i] ≤ 2y 时，我们需要进行 1 次操作；
+                //当 2y < nums[i] ≤ 3y 时，我们需要进行 2 次操作；
+                // 综上 可以得出 2y < nums[i]-1 < 3y, 同时除以y取整 每个数字的操作次数为（nums[i]-1）/y
+                ops += (num - 1) / y;
+            }
+            // 总操作次数大于规定次数，不符合要求，左边向右移动1位
+            if (ops > maxOperations) {
+                left = y + 1;
+            }  else {
+                // 否则res = y，这里可以存到一个set中，最后取最小值，但是当while循环继续的时候，如果ops一直小于maxOperations，ops会越来越大，同样的y会越来越小。
+                // 即 while循环只要满足条件，最后一次的res一定是最小的y
+                res = y;
+                right = y - 1;
+            }
+        }
+        return res;
+    }
 }
