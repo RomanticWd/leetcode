@@ -9,7 +9,7 @@ public class StrSolution {
 
     public static void main(String[] args) {
         StrSolution solution = new StrSolution();
-        System.out.println(solution.checkIfPangram("leetcode"));
+        System.out.println(solution.countHomogenous("vvvvvvllll"));
 
     }
 
@@ -181,5 +181,34 @@ public class StrSolution {
             set.add(sentence.charAt(i));
         }
         return set.size() == 26;
+    }
+
+    /**
+     * 1759. 统计同构子字符串的数目
+     *
+     * @param s
+     * @return
+     */
+    public int countHomogenous(String s) {
+        long res = 0;
+        int mod = 1000000000 + 7;
+        char pre = s.charAt(0);
+        // 为了处理abbccc中ccc的情况，需要将个数放到for循环外
+        int cnt = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char index = s.charAt(i);
+            if (index != pre) {
+                long sum = (long) (cnt + 1) * cnt / 2;
+                res += sum;
+                pre = index;
+                // cnt置1，重新计数
+                cnt = 1;
+            } else {
+                cnt++;
+            }
+        }
+        long last = (long) (cnt + 1) * cnt / 2;
+        res += last;
+        return (int) (res % mod);
     }
 }
