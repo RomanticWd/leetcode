@@ -9,7 +9,7 @@ public class StrSolution {
 
     public static void main(String[] args) {
         StrSolution solution = new StrSolution();
-        System.out.println(solution.countHomogenous("vvvvvvllll"));
+        System.out.println(solution.minimumMoves("XXOX"));
 
     }
 
@@ -210,5 +210,23 @@ public class StrSolution {
         long last = (long) (cnt + 1) * cnt / 2;
         res += last;
         return (int) (res % mod);
+    }
+
+    /**
+     * 2027. 转换字符串的最少操作次数
+     *
+     * @param s
+     * @return
+     */
+    public int minimumMoves(String s) {
+        int res = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == 'X') {
+                res++;
+                i += 2;
+            }
+        }
+        return res;
     }
 }
