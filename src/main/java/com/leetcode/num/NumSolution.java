@@ -314,4 +314,29 @@ public class NumSolution {
         }
         return res;
     }
+
+    /**
+     * 1802. 有界数组中指定下标处的最大值
+     *
+     * @param n      数组长度
+     * @param index  指定下标，该下标处的数字应该最大
+     * @param maxSum 所有元素和不能超过这个限制
+     * @return
+     */
+    public int maxValue(int n, int index, int maxSum) {
+        for (int ret = maxSum; ret >= 1; ret--) { // 从大到小暴力搜索
+            // sum = ret 是因为从最大的数字处开始向左或者向右遍历
+            long sum = ret; // 注意用 long，防止整数溢出
+            for (int i = index + 1; i < n; i++) {
+                // 下标index是最大值的话，右侧应该逐渐递减
+                // 假如ret是最大值6，下标位是2，那么右边第一个下标为3的数字应该是5，如果递减到等于 1 后，后面还跟着 0 个或多个 1。
+                sum += Math.max(ret - i + index, 1);
+            }
+            for (int i = index - 1; i >= 0; i--) {
+                sum += Math.max(ret - index + i, 1);
+            }
+            if (sum <= maxSum) return ret;
+        }
+        return -1;
+    }
 }
