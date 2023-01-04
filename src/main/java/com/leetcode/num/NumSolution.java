@@ -9,7 +9,7 @@ public class NumSolution {
 
     public static void main(String[] args) {
         NumSolution solution = new NumSolution();
-        System.out.println(solution.minElements(new int[]{-1, 0, 1, 1, 1}, 1, 771843707));
+        System.out.println(solution.getNoNumArray(new int[]{1, 3, 5, 1, 3}));
     }
 
     /**
@@ -255,6 +255,7 @@ public class NumSolution {
      * 1760. 袋子里最少数目的球
      * 1 <= nums.length <= 105
      * 1 <= maxOperations, nums[i] <= 109
+     *
      * @param nums
      * @param maxOperations
      * @return
@@ -279,11 +280,36 @@ public class NumSolution {
             // 总操作次数大于规定次数，不符合要求，左边向右移动1位
             if (ops > maxOperations) {
                 left = y + 1;
-            }  else {
+            } else {
                 // 否则res = y，这里可以存到一个set中，最后取最小值，但是当while循环继续的时候，如果ops一直小于maxOperations，ops会越来越大，同样的y会越来越小。
                 // 即 while循环只要满足条件，最后一次的res一定是最小的y
                 res = y;
                 right = y - 1;
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 获取数组中缺少的数字。如{1，3，5，1，3}， 五个数字 缺少的就是{2，4}
+     *
+     * @param nums
+     * @return
+     */
+    public List<Integer> getNoNumArray(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        if (nums.length == 0) {
+            return res;
+        }
+        boolean[] flag = new boolean[nums.length];
+        for (int i : nums) {
+            if (!flag[--i]) {
+                flag[i] = true;
+            }
+        }
+        for (int i = 1; i < flag.length; i++) {
+            if (flag[i]) {
+                res.add(i);
             }
         }
         return res;
