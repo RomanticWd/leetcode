@@ -9,7 +9,7 @@ public class StrSolution {
 
     public static void main(String[] args) {
         StrSolution solution = new StrSolution();
-        System.out.println(solution.minimumMoves("XXOX"));
+        System.out.println(solution.areNumbersAscending("hello world 5 x 5"));
 
     }
 
@@ -229,4 +229,41 @@ public class StrSolution {
         }
         return res;
     }
+
+    /**
+     * 2042. 检查句子中的数字是否递增
+     *
+     * @param s
+     * @return
+     */
+    public boolean areNumbersAscending(String s) {
+        String[] strArr = s.split(" ");
+        int pre = 0;
+        for (String str : strArr) {
+            if (!isNumeric(str)) {
+                continue;
+            }
+            int num = Integer.parseInt(str);
+            if (num > pre) {
+                pre = num;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isNumeric(String string) {
+        int intValue;
+        if (string == null || string.equals("")) {
+            return false;
+        }
+        try {
+            intValue = Integer.parseInt(string);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
 }
