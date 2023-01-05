@@ -9,7 +9,7 @@ public class NumSolution {
 
     public static void main(String[] args) {
         NumSolution solution = new NumSolution();
-        System.out.println(solution.getNoNumArray(new int[]{1, 3, 5, 1, 3}));
+        System.out.println(solution.countPairs(new int[]{9, 8, 4, 2, 1}, 5, 14));
     }
 
     /**
@@ -338,5 +338,38 @@ public class NumSolution {
             if (sum <= maxSum) return ret;
         }
         return -1;
+    }
+
+    /**
+     * 1803. 统计异或值在范围内的数对有多少
+     * 1 <= nums.length <= 2 * 10^4
+     * 1 <= nums[i] <= 2 * 10^4
+     * 1 <= low <= high <= 2 * 10^4
+     *
+     * @param nums
+     * @param low
+     * @param high
+     * @return
+     */
+    public int countPairs(int[] nums, int low, int high) {
+        int req = 0;
+        int[] freq = new int[20001];
+        Arrays.fill(freq, 0);
+        for (int num : nums) {
+            freq[num]++;
+        }
+        for (int num : nums) {
+            for (int i = low; i <= high; i++) {
+                // 将将当前数字和 [low, high] 范围内的数字进行异或运算，将其结果对应的出现次数相加。 即num^i=num2， num2是异或的结果
+                // 题目的要求是数组中的两个数字进行异或后在low-high之间，而现在用low和high之间的数字轮流和数组中的数字进行异或， 如果数字在20000内，说明满足要求
+                // num^i=num2 <-> num^num2=i
+                int num2 = i ^ num;
+                if (num2 <= 20000) {
+                    req += freq[num2];
+                }
+            }
+            freq[num]--;
+        }
+        return req;
     }
 }
