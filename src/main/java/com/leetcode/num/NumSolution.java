@@ -9,7 +9,7 @@ public class NumSolution {
 
     public static void main(String[] args) {
         NumSolution solution = new NumSolution();
-        System.out.println(solution.countPairs(new int[]{9, 8, 4, 2, 1}, 5, 14));
+        System.out.println(solution.countEven(30));
     }
 
     /**
@@ -371,5 +371,27 @@ public class NumSolution {
             freq[num]--;
         }
         return req;
+    }
+
+    /**
+     * 2180. 统计各位数字之和为偶数的整数个数
+     *
+     * @param num
+     * @return
+     */
+    public int countEven(int num) {
+        int res = 0;
+        for (int i = 2; i <= num; i++) {
+            int temp = i;
+            int sum = 0;
+            while (temp != 0) {
+                sum += temp % 10;
+                temp = temp / 10;
+            }
+            if (sum % 2 == 0) {
+                res++;
+            }
+        }
+        return res;
     }
 }
