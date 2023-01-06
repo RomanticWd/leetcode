@@ -9,7 +9,11 @@ public class NumSolution {
 
     public static void main(String[] args) {
         NumSolution solution = new NumSolution();
-        System.out.println(solution.countEven(30));
+        int[] array = {3, 2, 1, 5, 6, 4};
+        System.out.println(solution.findKthLargest(array, 2));
+        for (int i : array) {
+            System.out.println(i);
+        }
     }
 
     /**
@@ -393,5 +397,119 @@ public class NumSolution {
             }
         }
         return res;
+    }
+
+    /**
+     * 912. 排序数组, 升序排序
+     *
+     * @param nums
+     * @return
+     */
+    public int[] sortArray(int[] nums) {
+//        // 冒泡排序
+//        for (int i = 0; i < nums.length; i++) {
+//            for (int j = 0; j < nums.length - i - 1; j++) {
+//                System.out.println("i:" + i + "j:" + j);
+//                if (nums[j] > nums[j + 1]) {
+//                    int temp = nums[j + 1];
+//                    nums[j + 1] = nums[j];
+//                    nums[j] = temp;
+//                }
+//            }
+//        }
+
+        // 快速排序
+        quickMin2MaxSort(nums, 0, nums.length - 1);
+        return nums;
+    }
+
+    /**
+     * 215. 数组中的第K个最大元素
+     */
+    public int findKthLargest(int[] nums, int k) {
+        int low = 0;
+        int high = nums.length - 1;
+        quickMax2MinSort(nums, low, high);
+        return nums[k - 1];
+    }
+
+    /**
+     * 快排 从大到小排序
+     *
+     * @param arr
+     * @param low
+     * @param high
+     */
+    public void quickMax2MinSort(int[] arr, int low, int high) {
+        if (low > high) {
+            return;
+        }
+        int i = low, j = high;
+        int temp = arr[low];
+        while (i < j) {
+            // 从右开始向左遍历, 直到遇见arr[j] 小于 temp的数字
+            while (temp >= arr[j] && i < j) {
+                j--;
+            }
+            // 从左开始向右遍历, 直到遇见arr[i] 大于 temp的数字
+            while (temp <= arr[i] && i < j) {
+                i++;
+            }
+
+            // 此时i还是小于j，说明两边还没有相遇，进行数字交换
+            if (i < j) {
+                int num = arr[j];
+                arr[j] = arr[i];
+                arr[i] = num;
+            }
+        }
+        // i == j时候，两边相遇，while循环结束，与temp数字交换
+
+        arr[low] = arr[i];
+        arr[i] = temp;
+        // 二分法，对i左边进行排序
+        quickMax2MinSort(arr, low, i - 1);
+        // 对i右边进行排序
+        quickMax2MinSort(arr, i + 1, high);
+    }
+
+    /**
+     * 快排 从小到大排序
+     *
+     * @param arr
+     * @param low
+     * @param high
+     */
+    public void quickMin2MaxSort(int[] arr, int low, int high) {
+        if (low > high) {
+            return;
+        }
+        int i = low, j = high;
+        int temp = arr[low];
+        while (i < j) {
+            // 从右开始向左遍历, 直到遇见arr[j] 小于 temp的数字
+            while (temp <= arr[j] && i < j) {
+                j--;
+            }
+            // 从左开始向右遍历, 直到遇见arr[i] 大于 temp的数字
+            while (temp >= arr[i] && i < j) {
+                i++;
+            }
+
+            // 此时i还是小于j，说明两边还没有相遇，进行数字交换
+            if (i < j) {
+                int num = arr[j];
+                arr[j] = arr[i];
+                arr[i] = num;
+            }
+        }
+        // i == j时候，两边相遇，while循环结束，与temp数字交换
+
+        arr[low] = arr[i];
+        arr[i] = temp;
+        // 二分法，对i左边进行排序
+        quickMin2MaxSort(arr, low, i - 1);
+        // 对i右边进行排序
+        quickMin2MaxSort(arr, i + 1, high);
     }
 }
