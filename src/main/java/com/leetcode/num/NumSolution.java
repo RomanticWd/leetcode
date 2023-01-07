@@ -512,4 +512,48 @@ public class NumSolution {
         // 对i右边进行排序
         quickMin2MaxSort(arr, i + 1, high);
     }
+
+    /**
+     * 1658. 将 x 减到 0 的最小操作数
+     * 你应当移除数组 nums 最左边或最右边的元素，然后从 x 中减去该元素的值 使之刚好等于0
+     *
+     * @param nums
+     * @param x
+     * @return
+     */
+    public int minOperations(int[] nums, int x) {
+
+        // 题目的要求是从最左边或最右边取数相加，值刚好等于x，转换思路，就是取最大子数组，数组中元素是连续的，子数组所有元素的和为 nums数组和 减去 x
+        // 先求出数组所有元素的和
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        // 目标子数组的和
+        int target = sum - x;
+        // 如果目标子数组的和小于0，说明不存在
+        if (target < 0) {
+            return -1;
+        }
+        // 子数组的开始位置
+        int left = 0;
+        // 子数组的和
+        int subSum = 0;
+        // 子数组的最大长度
+        int max = -1;
+        // 子数组的结束位置，先从下标0开始
+        for (int right = 0; right < nums.length; right++) {
+            subSum += nums[right];
+            while (subSum > target) {
+                //right先右移，即子数组长度开始变长，如果和大于目标target，left开始右移，同时子数组的和减去最左边元素，即left的下标位
+                subSum -= nums[left++];
+            }
+            if (subSum == target) {
+                // right - left + 1即为子数组的长度
+                max = Math.max(max, right - left + 1);
+            }
+        }
+        // 求出来的max是最长子数组的长度，而题目的结果应该是为了得到最长子数组长度应该减去的元素数量
+        return max < 0 ? -1 : nums.length - max;
+    }
 }
