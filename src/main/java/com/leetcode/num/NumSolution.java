@@ -9,11 +9,7 @@ public class NumSolution {
 
     public static void main(String[] args) {
         NumSolution solution = new NumSolution();
-        int[] array = {3, 2, 1, 5, 6, 4};
-        System.out.println(solution.findKthLargest(array, 2));
-        for (int i : array) {
-            System.out.println(i);
-        }
+        System.out.println(solution.reinitializePermutation(6));
     }
 
     /**
@@ -555,5 +551,37 @@ public class NumSolution {
         }
         // 求出来的max是最长子数组的长度，而题目的结果应该是为了得到最长子数组长度应该减去的元素数量
         return max < 0 ? -1 : nums.length - max;
+    }
+
+    /**
+     * 1806. 还原排列的最少操作步数
+     *
+     * @param n
+     * @return
+     */
+    public int reinitializePermutation(int n) {
+        int[] perm = new int[n];
+        int[] target = new int[n];
+        for (int i = 0; i < n; i++) {
+            perm[i] = i;
+            target[i] = i;
+        }
+
+        int result = 0;
+        while (true) {
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                if (i % 2 == 0) {
+                    arr[i] = perm[i / 2];
+                } else {
+                    arr[i] = perm[n / 2 + (i - 1) / 2];
+                }
+            }
+            perm = arr;
+            result++;
+            if (Arrays.equals(perm, target)) {
+                return result;
+            }
+        }
     }
 }
