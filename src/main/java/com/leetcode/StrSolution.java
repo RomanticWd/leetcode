@@ -9,7 +9,7 @@ public class StrSolution {
 
     public static void main(String[] args) {
         StrSolution solution = new StrSolution();
-        System.out.println(solution.areNumbersAscending("hello world 5 x 5"));
+        System.out.println(solution.prefixCount(new String[]{"leetcode", "win", "loops", "success"}, "code"));
 
     }
 
@@ -264,6 +264,23 @@ public class StrSolution {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    /**
+     * 2185. 统计包含给定前缀的字符串
+     *
+     * @param words
+     * @param pref
+     * @return
+     */
+    public int prefixCount(String[] words, String pref) {
+        int result = 0;
+        for (String word : words) {
+            if (word.startsWith(pref)) {
+                result++;
+            }
+        }
+        return result;
     }
 
 }
