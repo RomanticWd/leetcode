@@ -9,7 +9,7 @@ public class NumSolution {
 
     public static void main(String[] args) {
         NumSolution solution = new NumSolution();
-        System.out.println(solution.reinitializePermutation(6));
+        System.out.println(solution.digitCount("1210"));
     }
 
     /**
@@ -583,5 +583,29 @@ public class NumSolution {
                 return result;
             }
         }
+    }
+
+    /**
+     * 2283. 判断一个数的数字计数是否等于数位的值
+     *
+     * @param num
+     * @return
+     */
+    public boolean digitCount(String num) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < num.length(); i++) {
+            Integer key = num.charAt(i) - '0';
+            Integer value = map.getOrDefault(key, 0);
+            map.put(key, ++value);
+        }
+
+        boolean res = true;
+        for (int i = 0; i < num.length(); i++) {
+            int count = num.charAt(i) - '0';
+            if (count != map.getOrDefault(i, 0)) {
+                res = false;
+            }
+        }
+        return res;
     }
 }
