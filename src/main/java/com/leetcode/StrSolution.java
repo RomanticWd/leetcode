@@ -9,7 +9,8 @@ public class StrSolution {
 
     public static void main(String[] args) {
         StrSolution solution = new StrSolution();
-        System.out.println(solution.prefixCount(new String[]{"leetcode", "win", "loops", "success"}, "code"));
+        List<List<String>> knowledge = Arrays.asList(Arrays.asList("name", "bob"), Arrays.asList("age", "two"));
+        System.out.println(solution.evaluate("(name)is(age)yearsold", knowledge));
 
     }
 
@@ -281,6 +282,42 @@ public class StrSolution {
             }
         }
         return result;
+    }
+
+    /**
+     * 1807. 替换字符串中的括号内容
+     *
+     * @param s
+     * @param knowledge
+     * @return
+     */
+    public String evaluate(String s, List<List<String>> knowledge) {
+        Map<String, String> map = new HashMap<>();
+        for (List<String> keyValue : knowledge) {
+            String key = keyValue.get(0);
+            map.put(key, keyValue.get(1));
+        }
+        boolean append = false;
+        StringBuilder sb = new StringBuilder();
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(') {
+                append = true;
+            } else if (c == ')') {
+                String replace = map.getOrDefault(sb.toString(), "?");
+                res.append(replace);
+                append = false;
+                sb.setLength(0);
+            } else {
+                if (append) {
+                    sb.append(c);
+                } else {
+                    res.append(c);
+                }
+            }
+        }
+        return res.toString();
     }
 
 }
