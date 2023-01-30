@@ -12,18 +12,24 @@ public class ListNodeSolution {
 
         ListNodeSolution solution = new ListNodeSolution();
 
-        ListNode one = new ListNode(1);
-        ListNode two = new ListNode(2);
+        ListNode one = new ListNode(0);
+        ListNode two = new ListNode(1);
         ListNode three = new ListNode(2);
-        ListNode four = new ListNode(2);
-        ListNode five = new ListNode(3);
-        ListNode six = new ListNode(4);
+        ListNode four = new ListNode(3);
+        ListNode five = new ListNode(4);
+        ListNode six = new ListNode(5);
         one.next = two;
         two.next = three;
         three.next = four;
         four.next = five;
         five.next = six;
-        ListNode newHead = solution.deleteDuplicatesII(one);
+
+        ListNode seven = new ListNode(1000000);
+        ListNode eight = new ListNode(1000001);
+        ListNode nine = new ListNode(1000002);
+        seven.next = eight;
+        eight.next = nine;
+        ListNode newHead = solution.mergeInBetween(one, 3, 4, seven);
         while (newHead != null) {
             System.out.println(newHead.val);
             newHead = newHead.next;
@@ -33,6 +39,9 @@ public class ListNodeSolution {
     public static class ListNode {
         int val;
         ListNode next;
+
+        ListNode() {
+        }
 
         ListNode(int val) {
             this.val = val;
@@ -295,5 +304,38 @@ public class ListNodeSolution {
             // 这样最终两个人走过的路线就都是A+B，如果两个人有相遇，则pA=pB，并退出while循环，否则一直到pA=pB=null
         }
         return pA;
+    }
+
+    /**
+     * 1669. 合并两个链表
+     *
+     * @param list1
+     * @param a
+     * @param b
+     * @param list2
+     * @return
+     */
+    public ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
+        ListNode preA = list1;
+        // 从a开始删除，将指针指向a位置, 这时候的preA就是list1 a之前的内容
+        for (int i = 0; i < a - 1; i++) {
+            preA = preA.next;
+        }
+
+        ListNode preB = preA;
+        // preB是从a-b的内容，这一块内容要被删除，通过遍历，将preB的指针指向b位置
+        for (int i = 0; i < b - a + 2; i++) {
+            preB = preB.next;
+        }
+
+        // 将preA的末尾指向list2
+        preA.next = list2;
+        // 遍历list2
+        while (list2.next != null) {
+            list2 = list2.next;
+        }
+        // 将list2的末尾指向preB
+        list2.next = preB;
+        return list1;
     }
 }
