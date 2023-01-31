@@ -8,10 +8,17 @@ package com.leetcode.graph;
  **/
 public class GraphSolution {
 
+    public static void main(String[] args) {
+        GraphSolution solution = new GraphSolution();
+        int[][] grid = new int[][]{{2, 0, 0, 1}, {0, 3, 1, 0}, {0, 5, 2, 0}, {4, 0, 0, 2}};
+        System.out.println(solution.checkXMatrix(grid));
+    }
+
     int len = -1;
 
     /**
      * 593. 有效的正方形
+     *
      * @param p1
      * @param p2
      * @param p3
@@ -48,5 +55,30 @@ public class GraphSolution {
         return true;
     }
 
+    /**
+     * 2319. 判断矩阵是否是一个 X 矩阵
+     * i横坐标 j纵坐标 i==j或者i+j=n-1 说明在对角线上
+     *
+     * @param grid
+     * @return
+     */
+    public boolean checkXMatrix(int[][] grid) {
+        int length = grid.length;
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                int num = grid[i][j];
+                if ((i == j || i + j == length - 1)) {
+                    if (num == 0) {
+                        return false;
+                    }
+                } else {
+                    if (num != 0) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
 }
