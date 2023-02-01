@@ -10,7 +10,7 @@ public class StrSolution {
     public static void main(String[] args) {
         StrSolution solution = new StrSolution();
         List<List<String>> knowledge = Arrays.asList(Arrays.asList("name", "bob"), Arrays.asList("age", "two"));
-        System.out.println(solution.evaluate("(name)is(age)yearsold", knowledge));
+        System.out.println(solution.decodeMessage("the quick brown fox jumps over the lazy dog", "vkbs bs t suepuv"));
 
     }
 
@@ -318,6 +318,34 @@ public class StrSolution {
             }
         }
         return res.toString();
+    }
+
+    /**
+     * 2325. 解密消息
+     *
+     * @param key
+     * @param message
+     * @return
+     */
+    public String decodeMessage(String key, String message) {
+        Map<Character, Character> map = new HashMap<>();
+        char count = 'a';
+        for (int i = 0; i < key.length(); i++) {
+            char c = key.charAt(i);
+            if (!map.containsKey(c) && c != ' ') {
+                map.put(c, count);
+                count++;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < message.length(); i++) {
+            char c = message.charAt(i);
+            if (c != ' ') {
+                c = map.get(c);
+            }
+            sb.append(c);
+        }
+        return sb.toString();
     }
 
 }
