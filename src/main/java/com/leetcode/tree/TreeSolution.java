@@ -481,4 +481,26 @@ public class TreeSolution {
             findAns(parents.get(target.val), target, depth + 1, k);
         }
     }
+
+    /**
+     * 2331. 计算布尔二叉树的值
+     *
+     * @param root
+     * @return
+     */
+    public boolean evaluateTree(TreeNode root) {
+        if (root == null) {
+            return false;
+        }
+        // 如果子节点是空的
+        if (root.left == null) {
+            return root.val == 1;
+        }
+        // 为2的时候取或
+        if (root.val == 2) {
+            return evaluateTree(root.left) || evaluateTree(root.right);
+        } else {
+            return evaluateTree(root.left) && evaluateTree(root.right);
+        }
+    }
 }
