@@ -12,7 +12,7 @@ public class GameSolution {
 
         int[] arr = new int[]{1, 1, 2};
 
-        System.out.println(solution.numRabbits(arr));
+        System.out.println(solution.alphabetBoardPath("leet"));
 
     }
 
@@ -404,5 +404,56 @@ public class GameSolution {
             result ^= i;
         }
         return result == 0;
+    }
+
+    /**
+     * 1138. 字母板上的路径
+     *
+     * @param target
+     * @return
+     */
+    public String alphabetBoardPath(String target) {
+        // 初始位置
+        int x = 0, y = 0;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < target.length(); i++) {
+            char c = target.charAt(i);
+            // 5个字母是一行，比如字母‘a’，'a'-'a'=0, 横坐标是0，纵坐标是0, 比如字母‘h’，'h'-'a'=7, 所以横坐标是7%5 = 2,，纵坐标是7/5=1
+            // 字母的横坐标
+            int cx = (c - 'a') % 5;
+            // 字母的纵坐标
+            int cy = (c - 'a') / 5;
+            // 考虑到字母‘z’所在位置只有一个字母，想输入z时候必须先左移再下移，所以优先左移，
+            // 同理想从字母z到别的字母位置，必须先上移，再右移， 所以优先上移。
+            // 字符横坐标位置比上次的位置小，说明要左移
+            if (cx < x) {
+                for (int j = 0; j < x - cx; j++) {
+                    sb.append('L');
+                }
+            }
+            // 字符纵坐标位置比上次的位置小，说明要上移
+            if (cy < y) {
+                for (int j = 0; j < y - cy; j++) {
+                    sb.append('U');
+                }
+            }
+            // 字符横坐标位置比上次的位置大，说明要右移
+            if (cx > x) {
+                for (int j = 0; j < cx - x; j++) {
+                    sb.append('R');
+                }
+            }
+            // 字符纵坐标位置比上次的位置大，说明要下移
+            if (cy > y) {
+                for (int j = 0; j < cy - y; j++) {
+                    sb.append('D');
+                }
+            }
+            // 如果和上次的字符相同，直接输入‘！’
+            sb.append('!');
+            x = cx;
+            y = cy;
+        }
+        return sb.toString();
     }
 }
