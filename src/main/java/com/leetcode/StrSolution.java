@@ -10,7 +10,7 @@ public class StrSolution {
     public static void main(String[] args) {
         StrSolution solution = new StrSolution();
         List<List<String>> knowledge = Arrays.asList(Arrays.asList("name", "bob"), Arrays.asList("age", "two"));
-        System.out.println(solution.decodeMessage("the quick brown fox jumps over the lazy dog", "vkbs bs t suepuv"));
+        System.out.println(solution.balancedString("QQQW"));
 
     }
 
@@ -346,6 +346,40 @@ public class StrSolution {
             sb.append(c);
         }
         return sb.toString();
+    }
+
+    /**
+     * 1234. 替换子串得到平衡字符串
+     *
+     * @param s
+     * @return
+     */
+    public int balancedString(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            Integer count = map.getOrDefault(s.charAt(i), 0);
+            map.put(s.charAt(i), count + 1);
+        }
+        int n = s.length(), m = n / 4;
+        if (map.getOrDefault('Q', 0) == m && map.getOrDefault('W', 0) == m && map.getOrDefault('E', 0) == m && map.getOrDefault('R', 0) == m) {
+            // 已经满足条件，直接返回
+            return 0;
+        }
+        int res = n, left = 0;
+        for (int right = 0; right < n; right++) { // 枚举子串右端点
+            Integer count = map.getOrDefault(s.charAt(right), 0);
+            map.put(s.charAt(right), count - 1);
+            // 设子串的左右端点为 left 和 right ，枚举 right，如果子串外的任意字符的出现次数都不超过 mmm，则说明从 left 到 right的这段子串可以是待替换子串
+            // 用其长度 right−left+1 更新答案的最小值，并向右移动 left，缩小子串长度。
+            while (map.getOrDefault('Q', 0) <= m && map.getOrDefault('W', 0) <= m && map.getOrDefault('E', 0) <= m && map.getOrDefault('R', 0) <= m) {
+                res = Math.min(res, right - left + 1);
+                char c = s.charAt(left);
+                Integer leftCount = map.getOrDefault(c, 0);
+                map.put(s.charAt(left), leftCount + 1);
+                left++;
+            }
+        }
+        return res;
     }
 
 }
