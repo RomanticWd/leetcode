@@ -608,4 +608,38 @@ public class NumSolution {
         }
         return res;
     }
+
+    /**
+     * 1250. 检查「好数组」
+     *
+     * @param nums
+     * @return
+     */
+    public boolean isGoodArray(int[] nums) {
+        int divisor = nums[0];
+        for (int num : nums) {
+            divisor = gcd(divisor, num);
+            if (divisor == 1) {
+                break;
+            }
+        }
+        return divisor == 1;
+    }
+
+    public int gcd(int a, int b) {
+        if (a < 0 || b < 0) {
+            return -1; // 数学上不考虑负数的约数
+        }
+        if (b == 0) {
+            return a;
+        }
+        // 可以整除的时候才是约数，此时b的值就是最大公约数
+        while (a % b != 0) {
+            // 不停的取余
+            int temp = a % b;
+            a = b;
+            b = temp;
+        }
+        return b;
+    }
 }
