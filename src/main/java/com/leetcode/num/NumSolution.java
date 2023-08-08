@@ -642,4 +642,35 @@ public class NumSolution {
         }
         return b;
     }
+
+    /**
+     * 1749. 任意子数组和的绝对值的最大值
+     * @param nums
+     * @return
+     */
+    public int maxAbsoluteSum(int[] nums) {
+        // 绝对值，即子数组和可以为负数，也可以为正数，维护正数和负数两个和，最后进行对比
+        // 动态规划的思路：https://leetcode.cn/problems/maximum-subarray/solutions/9058/dong-tai-gui-hua-fen-zhi-fa-python-dai-ma-java-dai/
+        // 定义 f[i]表示以 nums[i] 结尾的最大子数组和：
+        //如果子数组只有一个数：f[i]=nums[i]
+        //如果把 nums[i]和前面的子数组拼起来：f[i]=f[i−1]+nums[i]
+        //这两种情况取最大值，即 f[i]=max(nums[i],f[i−1]+nums[i])
+
+        // 正数和，正数最大
+        int positiveSum = 0, positiveMax = 0;
+        // 负数和，负数最小
+        int negativeSum = 0, negativeMin = 0;
+
+        for (int num : nums) {
+            positiveSum += num;
+            positiveMax = Math.max(positiveMax, positiveSum);
+            // 如果之前的和为负数，那么接下来的子数组不用包含之前的和，这样可以保证正数和最大
+            positiveSum = Math.max(positiveSum, 0);
+
+            negativeSum += num;
+            negativeMin = Math.min(negativeMin, negativeSum);
+            negativeSum = Math.min(negativeSum, 0);
+        }
+        return Math.max(positiveMax, -negativeMin);
+    }
 }
